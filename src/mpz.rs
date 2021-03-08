@@ -103,9 +103,18 @@ pub struct Mpz {
 
 unsafe impl Send for Mpz { }
 unsafe impl Sync for Mpz { }
-
+use std::sync::atomic;
 impl Drop for Mpz {
-    fn drop(&mut self) { unsafe { __gmpz_clear(&mut self.mpz) } }
+    fn drop(&mut self) {
+        println!("drop gmp");
+        unsafe {
+            std::ptr::write_volatile(self, Mpz::one());
+            __gmpz_clear(&mut self.mpz);
+        }
+
+        atomic::fence(atomic::Ordering::SeqCst);
+        atomic::compiler_fence(atomic::Ordering::SeqCst);
+    }
 }
 
 /// The result of running probab_prime
