@@ -37,6 +37,7 @@ extern "C" {
     fn __gmpz_clear(x: mpz_ptr);
     fn __gmpz_realloc2(x: mpz_ptr, n: mp_bitcnt_t);
     fn __gmpz_set(rop: mpz_ptr, op: mpz_srcptr);
+    fn __gmpz_set_ui(rop: mpz_ptr, op: c_ulong);
     fn __gmpz_set_str(rop: mpz_ptr, s: *const c_char, base: c_int) -> c_int;
     fn __gmpz_get_str(s: *mut c_char, base: c_int, op: mpz_srcptr) -> *mut c_char;
     fn __gmpz_get_ui(op: mpz_srcptr) -> c_ulong;
@@ -106,9 +107,8 @@ unsafe impl Sync for Mpz { }
 use std::sync::atomic;
 impl Drop for Mpz {
     fn drop(&mut self) {
-        println!("drop gmp");
         unsafe {
-            std::ptr::write_volatile(self, Mpz::one());
+            __gmpz_set_ui(&mut self.mpz, 0 as c_ulong);
             __gmpz_clear(&mut self.mpz);
         }
 
