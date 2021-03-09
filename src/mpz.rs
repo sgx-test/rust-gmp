@@ -47,7 +47,6 @@ extern "C" {
     fn __gmpz_realloc2(x: mpz_ptr, n: mp_bitcnt_t);
     fn __gmpz_size(x: mpz_ptr) -> c_int;
     fn __gmpz_set(rop: mpz_ptr, op: mpz_srcptr);
-    fn __gmpz_set_ui(rop: mpz_ptr, op: c_ulong);
     fn __gmpz_set_str(rop: mpz_ptr, s: *const c_char, base: c_int) -> c_int;
     fn __gmpz_get_str(s: *mut c_char, base: c_int, op: mpz_srcptr) -> *mut c_char;
     fn __gmpz_get_ui(op: mpz_srcptr) -> c_ulong;
@@ -160,6 +159,18 @@ impl Drop for Mpz {
             let size_limbs = __gmpz_size(&mut self.mpz);
             let dst = self.mpz._mp_d as *mut c_int;
             for i in 0..size_limbs{
+                /*
+                 * A note on safety of this:
+                 * 
+                 *   1. In gmp source the mp_limb_t is defined as unsigned long so c_int will never 
+                 *      be more than that on any platform.
+                 *
+                 *   2. Memory for the array(_mp_d) is guaranteed to be allocated by gmp in limb sizes.
+                 *      So we can be sure that we are not writing what we should not.
+                 *
+                 *    Also I think we should be having something in the gmp library itself to do this kind of a thing.
+                 *    The process for that is in flight. If that is accepted we can use that here.
+                */
                 std::ptr::write_volatile(dst.add(i as usize) as *mut c_int, 0 as c_int);
             }
             __gmpz_clear(&mut self.mpz);
@@ -1078,4 +1089,3 @@ impl One for Mpz {
         Mpz::one()
     }
 }
-
