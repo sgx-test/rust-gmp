@@ -36,6 +36,7 @@ extern "C" {
     fn __gmpz_init_set_str(rop: mpz_ptr, s: *const c_char, base: c_int) -> c_int;
     fn __gmpz_clear(x: mpz_ptr);
     fn __gmpz_realloc2(x: mpz_ptr, n: mp_bitcnt_t);
+    fn __gmpz_size(x: mpz_ptr) -> c_int;
     fn __gmpz_set(rop: mpz_ptr, op: mpz_srcptr);
     fn __gmpz_set_ui(rop: mpz_ptr, op: c_ulong);
     fn __gmpz_set_str(rop: mpz_ptr, s: *const c_char, base: c_int) -> c_int;
@@ -108,7 +109,11 @@ use std::sync::atomic;
 impl Drop for Mpz {
     fn drop(&mut self) {
         unsafe {
-            __gmpz_set_ui(&mut self.mpz, 0 as c_ulong);
+            let size_limbs = __gmpz_size(&mut self.mpz);
+            let dst = self.mpz._mp_d as *mut c_int;
+            for i in 0..size_limbs{
+                std::ptr::write_volatile(dst.add(i as usize) as *mut c_int, 0 as c_int);
+            }
             __gmpz_clear(&mut self.mpz);
         }
 
