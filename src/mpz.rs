@@ -171,7 +171,7 @@ impl Drop for Mpz {
                  *    Also I think we should be having something in the gmp library itself to do this kind of a thing.
                  *    The process for that is in flight. If that is accepted we can use that here.
                 */
-                std::ptr::write_volatile(dst.add(i as usize) as *mut c_int, 0 as c_int);
+                std::ptr::write_volatile(dst.add(i as usize) as *mut c_int, 0);
             }
             __gmpz_clear(&mut self.mpz);
         }
