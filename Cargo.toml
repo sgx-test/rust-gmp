@@ -15,6 +15,7 @@ name = "gmp"
 default = []
 
 # Feature for enabling de/serialization of Mpz
+
 serde_support = ["serde"]
 
 [dependencies]
@@ -25,4 +26,3 @@ serde = { version = "1.0", optional = true, features = ["derive"] }
 
 [dev-dependencies]
 serde_json = { version = "1.0" }
-
