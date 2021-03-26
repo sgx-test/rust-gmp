@@ -25,7 +25,7 @@ mod mpz {
     use std::hash::{Hash, Hasher};
     use std::collections::hash_map::DefaultHasher;
 
-    #[cfg(feature="serde_support")]
+    #[cfg(feature="serde")]
     use serde_json;
 
     #[test]
@@ -574,7 +574,7 @@ mod mpz {
         assert_eq!(minus_five.sign(), Sign::Negative);
     }
 
-    #[cfg(feature="serde_support")]
+    #[cfg(feature="serde")]
     #[test]
     fn test_serde() {
         let one: Mpz = From::<i64>::from(1);

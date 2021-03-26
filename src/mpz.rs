@@ -12,13 +12,13 @@ use std::ffi::CString;
 use std::{u32, i32};
 use num_traits::{Zero, One};
 
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 use serde::ser::{Serialize, Serializer};
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 use serde::de::{Visitor};
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 use serde::de;
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 use serde::{Deserialize, Deserializer};
 
 use ffi::*;
@@ -111,10 +111,10 @@ pub struct Mpz {
     mpz: mpz_struct,
 }
 
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 const HEX_RADIX : u8 = 16;
 
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 impl Serialize for Mpz {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
         where
@@ -124,10 +124,10 @@ impl Serialize for Mpz {
     }
 }
 
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 struct MpzVisitor;
 
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 impl<'de> Deserialize<'de> for Mpz {
     fn deserialize<D>(deserializer: D) -> Result<Mpz, D::Error>
         where
@@ -137,7 +137,7 @@ impl<'de> Deserialize<'de> for Mpz {
     }
 }
 
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 impl<'de> Visitor<'de> for MpzVisitor {
     type Value = Mpz;
 

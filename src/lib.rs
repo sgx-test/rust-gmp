@@ -6,13 +6,9 @@
 extern crate libc;
 extern crate num_traits;
 
-#[cfg(feature="serde_support")]
+#[cfg(feature="serde")]
 extern crate serde;
-
-#[cfg(feature="serde_support")]
-extern crate serde_derive;
-
-#[cfg(feature="serde_support")]
+#[cfg(all(test, feature="serde"))]
 extern crate serde_json;
 
 mod ffi;

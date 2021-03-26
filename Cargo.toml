@@ -15,7 +15,6 @@ name = "gmp"
 default = []
 
 # Feature for enabling de/serialization of Mpz
-
 serde_support = ["serde"]
 
 [dependencies]
