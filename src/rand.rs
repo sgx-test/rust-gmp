@@ -11,7 +11,7 @@ pub struct gmp_randstate_struct {
 
 pub type gmp_randstate_t = *mut gmp_randstate_struct;
 
-#[link(name = "gmp")]
+#[link(name = "sgx_tgmp")]
 extern "C" {
     fn __gmp_randinit_default(state: gmp_randstate_t);
     fn __gmp_randinit_mt(state: gmp_randstate_t);

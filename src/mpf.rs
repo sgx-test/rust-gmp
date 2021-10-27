@@ -25,7 +25,7 @@ pub struct mpf_struct {
 pub type mpf_srcptr = *const mpf_struct;
 pub type mpf_ptr = *mut mpf_struct;
 
-#[link(name = "gmp")]
+#[link(name = "sgx_tgmp")]
 extern "C" {
     fn __gmpf_init2(x: mpf_ptr, prec: mp_bitcnt_t);
     fn __gmpf_init_set(rop: mpf_ptr, op: mpf_srcptr);
