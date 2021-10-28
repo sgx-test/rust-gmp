@@ -23,6 +23,7 @@ use serde::{Deserialize, Deserializer};
 
 use ffi::*;
 
+use std::prelude::v1::*;
 #[repr(C)]
 pub struct mpz_struct {
     _mp_alloc: c_int,

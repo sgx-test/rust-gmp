@@ -12,7 +12,7 @@ use std::fmt;
 use std::cmp::Ordering::{self, Greater, Less, Equal};
 use std::ops::{Div, DivAssign, Mul, MulAssign, Add, AddAssign, Sub, SubAssign, Neg};
 use num_traits::{Zero, One};
-
+use std::prelude::v1::*;
 #[repr(C)]
 pub struct mpq_struct {
     _mp_num: mpz_struct,
