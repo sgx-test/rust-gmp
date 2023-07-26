@@ -22,7 +22,7 @@ pub struct mpq_struct {
 pub type mpq_srcptr = *const mpq_struct;
 pub type mpq_ptr = *mut mpq_struct;
 
-#[link(name = "gmp")]
+#[link(name = "gmp", kind = "static")]
 extern "C" {
     fn __gmpq_init(x: mpq_ptr);
     fn __gmpq_clear(x: mpq_ptr);
